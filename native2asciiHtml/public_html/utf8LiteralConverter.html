@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>UTF⇔Literal</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./fontawesome-free-5.11.2-web/css/all.min.css">
+    <link rel="stylesheet" href="./font-awesome-animation.min.css">
+    <style>
+    html, body, main {
+        margin : 0;
+        padding : 0;
+        height : 100%;
+        width : 100%;
+    }
+
+    .upper-half {
+        height : 50%;
+        width : 100%;
+        background : #aedbbb;
+        content : 'UTF';
+    }
+
+    .lower-half {
+        height : 50%;
+        width : 100%;
+        background : #4a223f;
+    }
+
+    .input-area {
+        position: relative;
+        top : 16%;
+        left : 10%;
+        height : 68%;
+        width : 80%;
+    }
+
+    .input-area.upper {
+        background : #4a223f;
+    }
+
+    .input-area.upper>i {
+        color : #4a223f;
+    }
+
+    .input-area.upper>textarea {
+        color : #aedbbb;
+    }
+
+    .input-area.lower {
+        background : #aedbbb;
+    }
+
+    .input-area.lower>i {
+        color : #aedbbb;
+    }
+
+    .input-area.lower>textarea {
+        color : #4a223f;
+    }
+
+    i {
+        position : absolute;
+        right : 0;
+        bottom : 0;
+        font-size : 10vw;
+        filter : brightness(120%);
+    }
+
+    i>span {
+        font-size : 5vw;
+    }
+
+    textarea {
+        position : absolute;
+        height : 100%;
+        width : 100%;
+        background-color : transparent;
+        border-style: none;
+    }
+
+      </style>
+</head>
+
+<body>
+    <main>
+        <div class="upper-half">
+            <div class="input-area upper">
+                <i class="fa fa-robot faa-float animated"><span>UTF8Code</span></i>
+                <textarea id="nativeText"></textarea>
+            </div>
+        </div>
+        <div class="lower-half">
+            <div class="input-area lower">
+                <i class="fa fa-grin-alt faa-float animated"><span>Literal</span></i>
+                <textarea id="asciiText"></textarea>
+            </div>
+        </div>
+    </main>
+    <!-- After this is javascript only-->
+    <script type="text/javascript">
+    window.onload = function() {
+        const nativeText = document.getElementById('nativeText');
+        const asciiText = document.getElementById('asciiText');
+
+        nativeText.addEventListener('input', native2ascii);
+        asciiText.addEventListener('input', ascii2native);
+
+        function native2ascii() {
+            var raw = nativeText.value
+            console.log('[native2ascii : raw] ' + raw);
+            var result = "";
+            while (true) {
+                if (raw.length == 0) break;
+                var index = raw.indexOf("\\u");
+                if (index == -1) {
+                    result += raw;
+                    break;
+                }
+                if (0 < index) {
+                    result += raw.substring(0, index);
+                }
+                if (index + 6 <= raw.length) {
+                    var tmp = parseInt(raw.substring(index + 2, index + 6), 16);
+                    result += String.fromCharCode(tmp);
+                    raw = raw.substring(index + 6);
+                } else {
+                    break;
+                }
+            }
+            console.log('[native2ascii : result] ' + raw);
+            asciiText.value = result;
+        }
+
+        function ascii2native() {
+            var raw = asciiText.value;
+            console.log('[ascii2native : raw] ' + raw);
+            var result = "";
+
+            while (true) {
+                if (raw.length == 0) break;
+                var t = raw.substring(0, 1);
+                raw = raw.substring(1);
+                var tmp = t.charCodeAt().toString(16);
+                if (tmp.length >= 4) {
+                    result += "\\u" + tmp;
+                } else {
+                    result += t;
+                }
+            }
+            console.log('[ascii2native : result] ' + raw);
+            nativeText.value = result;
+        }
+
+    }
+    </script>
+</body>
+
+</html>
