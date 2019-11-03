@@ -6,7 +6,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        html, body, main {
+        :root {
+            --colorA : #4a223f;
+            --colorB : #aedbbb;
+        }
+
+    html, body, main {
         margin : 0;
         padding : 0;
         height : 100%;
@@ -16,62 +21,80 @@
     .upper-half {
         height : 50%;
         width : 100%;
-        background : #aedbbb;
+        background : var(--colorB);
         content : 'UTF';
     }
 
     .lower-half {
         height : 50%;
         width : 100%;
-        background : #4a223f;
+        background : var(--colorA);
     }
 
     .input-area {
         position: relative;
-        top : 16%;
-        left : 10%;
-        height : 68%;
-        width : 80%;
+        top : 10%;
+        left : 7%;
+        height : 80%;
+        width : 86%;
     }
 
     .input-area.upper {
-        background : #4a223f;
+        background : var(--colorA);
     }
 
-    .input-area.upper>i {
-        color : #4a223f;
-    }
-
-    .input-area.upper>textarea {
-        color : #aedbbb;
+    .input-area.upper>i, .input-area.lower>textarea {
+        color : var(--colorA);
     }
 
     .input-area.lower {
-        background : #aedbbb;
+        background : var(--colorB);
     }
 
-    .input-area.lower>i {
-        color : #aedbbb;
+    .input-area.lower>i, .input-area.upper>textarea {
+        color : var(--colorB);
     }
 
-    .input-area.lower>textarea {
-        color : #4a223f;
+    /*About テキストエリア*/
+    textarea {
+        position : absolute;
+        height : 99%; /* 100%だと文字表示が背景色からはみ出る */
+        width : 100%;
+        background-color : transparent;
+        border-style: none;
+        resize : none;
     }
 
+    /*テキストエリアのスクロールバー ※Chrome safariくらいでしか効かない*/
+    ::-webkit-scrollbar {
+        position : relative;
+        right : 5px;
+        width: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background-color: rgba(0, 0, 50, .5);
+        border-radius: 10px;
+        box-shadow:0 0 0 1px rgba(255, 255, 255, .3);
+    }
+
+    /*About アイコン*/
     i {
         position : absolute;
         right : 0;
         bottom : 0;
         font-size : 5vw;
         vertical-align: bottom;
-        filter : brightness(120%);
-        margin : 0 2vw 0 0;
+        filter : brightness(130%);
+        margin-right: 2vw;
+        resize : none;
     }
 
     i:before {
         content : '';
         width: 10vw;
         height: 10vw;
+        vertical-align: bottom;
         display: inline-block;
     }
 
@@ -83,13 +106,6 @@
         background: url('data:image/svg+xml;charset=UTF-8,<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 512 512" xml:space="preserve"><path fill="%23aedbbb" d="M486.28,196.046C482.19,87.09,392.628,0,282.673,0C170.118,0,78.875,91.234,78.856,203.781C63.67,233.026,27.245,307.275,27.245,307.275c-2.799,5.589-2.899,12.15-0.281,17.83c2.617,5.689,7.67,9.869,13.731,11.387l33.308,8.334c0,0,16.968,76.612,20.839,94.388c5.853,26.919,14.56,32.754,40.024,32.754c25.483,0,55.6-8.253,55.6-8.253V512h218.366v-76.421c0-27.673,7.616-62.38,29.118-88.336C481.191,295.06,489.597,239.233,486.28,196.046z" /></svg>') no-repeat center center;
     }
 
-    textarea {
-        position : absolute;
-        height : 100%;
-        width : 100%;
-        background-color : transparent;
-        border-style: none;
-    }
       </style>
 </head>
 
