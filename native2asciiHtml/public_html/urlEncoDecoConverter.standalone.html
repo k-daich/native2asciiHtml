@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>UrlEnco⇔UrlDeco</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        :root {
+            --colorA : #4a223f;
+            --colorB : #aedbbb;
+        }
+
+    html, body, main {
+        margin : 0;
+        padding : 0;
+        height : 100%;
+        width : 100%;
+    }
+
+    .upper-half {
+        height : 50%;
+        width : 100%;
+        background : var(--colorB);
+        content : 'UTF';
+    }
+
+    .lower-half {
+        height : 50%;
+        width : 100%;
+        background : var(--colorA);
+    }
+
+    .input-area {
+        position: relative;
+        top : 10%;
+        left : 7%;
+        height : 80%;
+        width : 86%;
+    }
+
+    .input-area.upper {
+        background : var(--colorA);
+    }
+
+    .input-area.upper>i, .input-area.lower>textarea {
+        color : var(--colorA);
+    }
+
+    .input-area.lower {
+        background : var(--colorB);
+    }
+
+    .input-area.lower>i, .input-area.upper>textarea {
+        color : var(--colorB);
+    }
+
+    /*About テキストエリア*/
+    textarea {
+        position : absolute;
+        height : 99%; /* 100%だと文字表示が背景色からはみ出る */
+        width : 100%;
+        background-color : transparent;
+        border-style: none;
+        resize : none;
+    }
+
+    /*テキストエリアのスクロールバー ※Chrome safariくらいでしか効かない*/
+    ::-webkit-scrollbar {
+        position : relative;
+        right : 5px;
+        width: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background-color: rgba(0, 0, 50, .5);
+        border-radius: 10px;
+        box-shadow:0 0 0 1px rgba(255, 255, 255, .3);
+    }
+
+    /*About アイコン*/
+
+    i.icon-robot > span {
+     color : var(--colorB);
+    }
+
+    i.icon-face > span {
+     color : var(--colorA);
+    }
+    i {
+        position : absolute;
+        right : 0;
+        bottom : 0;
+        font-size : 5vw;
+        vertical-align: bottom;
+        /*filter : brightness(130%);*/
+        opacity : 0.4;
+        margin-right: 2vw;
+        resize : none;
+    }
+
+    i:before {
+        content : '';
+        width: 10vw;
+        height: 10vw;
+        vertical-align: bottom;
+        display: inline-block;
+    }
+
+      </style>
+    <style id='icn-rbt'></style> <!-- このstyleタグはjavascriptで後入れする -->
+    <style id='icn-fce'></style> <!-- このstyleタグはjavascriptで後入れする -->
+</head>
+
+<body>
+    <main>
+        <div class="upper-half">
+            <div class="input-area upper">
+                <i class="icon-robot"><span>UrlEncoded</span></i>
+                <textarea id="urlEncoText" spellcheck="false"></textarea>
+            </div>
+        </div>
+        <div class="lower-half">
+            <div class="input-area lower">
+                <i class="icon-face"><span>UrlDecoded</span></i>
+                <textarea id="urlDecoText" spellcheck="false"></textarea>
+            </div>
+        </div>
+    </main>
+    <!-- After this is javascript only-->
+    <script type="text/javascript">
+    window.onload = function() {
+        const root = document.documentElement;
+        // ランダムにこのサイトの色を設定する
+        colorRondomSet(root);
+
+        const urlEncoText = document.getElementById('urlEncoText');
+        const urlDecoText = document.getElementById('urlDecoText');
+
+        urlEncoText.addEventListener('input', decodeUrl);
+        urlDecoText.addEventListener('input', encodeUrl);
+
+        // URLEncoded→URLDecodedに変換
+        function decodeUrl() {
+            var raw = urlEncoText.value;
+            console.log('[urlEncoText : raw] ' + raw);
+            var result = decodeURI(raw);
+            urlDecoText.value = result;
+        }
+
+        // URLDecoded→URLEncodedに変換
+        function encodeUrl() {
+            var raw = urlDecoText.value;
+            console.log('[urlDecoText : raw] ' + raw);
+            var result = encodeURI(raw);
+            urlEncoText.value = result;
+        }
+
+        // ランダムにこのサイトの色を設定する関数
+        function colorRondomSet(root) {
+            // 色セット
+            var colorSet = [
+                ["#000500", "#5e4aae"],
+                ["#00152e", "#88554b"],
+                ["#001d00", "#924890"],
+                ["#002c4e", "#c04e43"],
+                ["#002c54", "#966966"],
+                ["#003391", "#928272"],
+                ["#0b1b00", "#595da3"],
+                ["#0e1f2f", "#fae2d0"],
+                ["#0f245d", "#fcdda2"],
+                ["#1946a1", "#fcbc5d"],
+                ["#1c1c1c", "#077559"],
+                ["#222f44", "#ddd3c1"],
+                ["#394d86", "#de8a12"],
+                ["#3e3e3e", "#ce700f"],
+                ["#41528d", "#bda256"],
+                ["#510000", "#44709e"],
+                ["#51536d", "#a9a683"],
+                ["#54591e", "#afa9e9"],
+                ["#625232", "#99aace"],
+                ["#654f40", "#83a7c2"],
+                ["#710000", "#528687"],
+                ["#7a2653", "#85e0ae"],
+                ["#832a1c", "#7ddbe8"],
+                ["#8ac090", "#6f3d69"],
+                ["#8acae9", "#79310f"],
+                ["#b7da83", "#47217d"],
+                ["#b7dec9", "#411f31"],
+                ["#b8f4ba", "#470745"],
+                ["#b9e2e3", "#491917"],
+                ["#e2a49d", "#165a61"],
+                ["#f09f5e", "#095ea2"],
+                ["#f8a643", "#0157be"]
+            ];
+
+            var colorSetNo = getParam('colorSet');
+            if (!colorSetNo) {
+                // 乱数を色セットNoに設定する
+                colorSetNo = getRandomInt(colorSet.length);
+            }
+            // 色セットのサイズより大きい数をGetParamで指定されたら1を設定する
+            else if(colorSet.length <= colorSetNo)  {
+                colorSetNo = 1;
+            }
+
+            // 乱数はGetパラメータで色を指定する際に利用するのでログ出力しておく
+            console.log('[GetParamで色指定できるよ] ?colorSet=' + colorSetNo);
+            // 乱数を元に色セットから色を決定する
+            decidedColor = colorSet[colorSetNo];
+
+            // 決定した色をCSSの変数に設定する
+            root.style.setProperty('--colorA', decidedColor[0]);
+            root.style.setProperty('--colorB', decidedColor[1]);
+
+            // svgにも色を設定するが、svgの色指定子は#の代わりに%23を使う
+            var iconColorRobot = '%23' + decidedColor[1].slice(1);
+            var iconColorFace = '%23' + decidedColor[0].slice(1);
+
+            // svgタグを設定する
+            document.getElementById('icn-rbt').innerText = 'i.icon-robot:before {background: url(\'data:image/svg+xml;charset=UTF-8,<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 512 512" xml:space="preserve"><path fill="' + iconColorRobot + '" d="M433.365,139.266H78.634c-17.649,0-31.95,14.301-31.95,31.952v338.377h418.632V171.218C465.316,153.567,451.015,139.266,433.365,139.266z M160.485,213.483c28.673,0,51.905,23.255,51.905,51.912c0,28.665-23.232,51.913-51.905,51.913c-28.664,0-51.904-23.248-51.904-51.913C108.581,236.738,131.821,213.483,160.485,213.483zM171.469,442.501h-48.304v-72.456h48.304V442.501z M243.924,442.501H195.62v-72.456h48.304V442.501z M316.38,442.501h-48.304v-72.456h48.304V442.501z M388.835,442.501h-48.304v-72.456h48.304V442.501z M351.522,317.308c-28.672,0-51.904-23.248-51.904-51.913c0-28.657,23.232-51.912,51.904-51.912c28.665,0,51.904,23.255,51.904,51.912C403.427,294.06,380.187,317.308,351.522,317.308z" />    <rect x="479.798" y="251.975" class="st0" width="32.202" height="96.608" fill="' + iconColorRobot + '"></rect>    <rect y="251.975" class="st0" width="32.202" height="96.608" fill="' + iconColorRobot + '"></rect>    <path class="st0" d="M251.975,104.383c28.154,0,50.985-22.831,50.985-50.993c0-28.153-22.831-50.984-50.985-50.984        c-28.162,0-50.992,22.832-50.992,50.984C200.982,81.552,223.813,104.383,251.975,104.383z" fill="' + iconColorRobot + '"></path></svg>\') no-repeat center center;}';
+            document.getElementById('icn-fce').innerText = 'i.icon-face:before {background: url(\'data:image/svg+xml;charset=UTF-8,<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 512 512" xml:space="preserve"><path fill="' + iconColorFace + '" d="M486.28,196.046C482.19,87.09,392.628,0,282.673,0C170.118,0,78.875,91.234,78.856,203.781C63.67,233.026,27.245,307.275,27.245,307.275c-2.799,5.589-2.899,12.15-0.281,17.83c2.617,5.689,7.67,9.869,13.731,11.387l33.308,8.334c0,0,16.968,76.612,20.839,94.388c5.853,26.919,14.56,32.754,40.024,32.754c25.483,0,55.6-8.253,55.6-8.253V512h218.366v-76.421c0-27.673,7.616-62.38,29.118-88.336C481.191,295.06,489.597,239.233,486.28,196.046z" /></svg>\' ) no-repeat center center;}';
+        }
+
+        // ランダム値を取得
+        // 引数１ max ： max-1がこの関数の返しうる最大値
+        function getRandomInt(max) {
+            return Math.floor(Math.random() * Math.floor(max));
+        }
+
+    }
+
+    // GetParamaterを取得する
+    function getParam(name) {
+        var url = window.location.href;
+        name = name.replace(/[\[\]]/g, "\\$&");
+        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+            results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, " "));
+    }
+    </script>
+</body>
+
+</html>
