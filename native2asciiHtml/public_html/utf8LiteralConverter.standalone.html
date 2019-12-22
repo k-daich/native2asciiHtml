@@ -225,8 +225,21 @@
                 ["#f09f5e", "#095ea2"],
                 ["#f8a643", "#0157be"]
             ];
-            // ランダム関数を利用して色セットから色を決定する
-            var decidedColor = colorSet[getRandomInt(colorSet.length)];
+
+            var colorSetNo = getParam('colorSet');
+            if (!colorSetNo) {
+                // 乱数を色セットNoに設定する
+                colorSetNo = getRandomInt(colorSet.length);
+            }
+            // 色セットのサイズより大きい数をGetParamで指定されたら1を設定する
+            else if(colorSet.length <= colorSetNo)  {
+                colorSetNo = 1;
+            }
+
+            // 乱数はGetパラメータで色を指定する際に利用するのでログ出力しておく
+            console.log('[GetParamで色指定できるよ] ?colorSet=' + colorSetNo);
+            // 乱数を元に色セットから色を決定する
+            decidedColor = colorSet[colorSetNo];
 
             // 決定した色をCSSの変数に設定する
             root.style.setProperty('--colorA', decidedColor[0]);
@@ -247,6 +260,17 @@
             return Math.floor(Math.random() * Math.floor(max));
         }
 
+    }
+
+    // GetParamaterを取得する
+    function getParam(name) {
+        var url = window.location.href;
+        name = name.replace(/[\[\]]/g, "\\$&");
+        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+            results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, " "));
     }
     </script>
 </body>
