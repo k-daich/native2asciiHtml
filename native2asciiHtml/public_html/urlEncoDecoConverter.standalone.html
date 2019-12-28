@@ -231,13 +231,30 @@
             ];
 
             var colorSetNo = getParam('colorSet');
-            if (!colorSetNo) {
+            var locStrg_colorSetNo = localStorage.getItem('colorSet');
+            // Getパラメータ、ローカルストレージともに未設定の場合
+            if (!colorSetNo && !locStrg_colorSetNo) {
+                console.log('[Getパラメータ：無し、ローカルストレージ：無し]');
                 // 乱数を色セットNoに設定する
                 colorSetNo = getRandomInt(colorSet.length);
             }
+            // Getパラメータ未設定、かつローカルストレージ設定ありの場合
+            else if (!colorSetNo && locStrg_colorSetNo) {
+                console.log('[Getパラメータ：無し、ローカルストレージ：有り]');
+                // ローカルストレージ値を色セットNoに設定する
+                colorSetNo = locStrg_colorSetNo;
+            }
             // 色セットのサイズより大きい数をGetParamで指定されたら1を設定する
             else if (colorSet.length <= colorSetNo) {
+                console.log('[Getパラメータ：有り（値範囲超過）、ローカルストレージ：判定無し]');
                 colorSetNo = 1;
+            }
+            // 残り：Getパラメータが正常範囲値で設定ありの場合
+            else {
+                console.log('[Getパラメータ：有り、ローカルストレージ：判定無し]');
+
+                // ローカルストレージにGetパラメータ値を設定する
+                localStorage.setItem('colorSet', colorSetNo);
             }
 
             // 乱数はGetパラメータで色を指定する際に利用するのでログ出力しておく

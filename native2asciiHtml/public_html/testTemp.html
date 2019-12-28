@@ -63,6 +63,17 @@
         </div>
     </main>
     <script type="text/javascript">
+    var locStrg_colorSet = localStorage.getItem('colorSet');
+    console.log('[locStrg_colorSet] ' + locStrg_colorSet);
+
+    if (locStrg_colorSet == "") {
+        console.log('[localStorageなし]');
+        localStorage.setItem('colorSet', '1');
+        console.log('[localStorage] ' + localStorage.getItem('colorSet'));
+    } else {
+        console.log('[localStorage] ' + localStorage.getItem('colorSet'));
+        localStorage.setItem('colorSet', '');
+    }
     </script>
 </body>
 
