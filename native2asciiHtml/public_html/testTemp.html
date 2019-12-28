@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>UrlEnco⇔UrlDeco</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        * {
+    		/*font-size : 0;*/
+    	}
+        :root {
+            --colorA : #4a223f;
+            --colorB : #aedbbb;
+        }
+
+    .center-flexbox {
+        display: inline-flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content : center;
+        width : 100vw;
+        height : 10vh;
+        background:linear-gradient(0deg ,var(--colorA) 0%,var(--colorA) 50%,var(--colorB) 50%,var(--colorB) 100%);
+    }
+
+    .center-flexbox-item {
+    	display : table-cell;
+        height : 6vh;
+        width : 16vw;
+        padding : 0.3vh 2vw;
+        vertical-align: middle;
+    }
+
+    .center-flexbox-item.odd {
+        background: var(--colorA);
+        color: var(--colorB);
+    }
+
+    .center-flexbox-item.even {
+        background:  var(--colorB);
+        color: var(--colorA);
+    }
+
+    .tool-link {
+        text-align: center;
+        word-break: break-all;
+        vertical-align: middle;
+    }
+
+    </style>
+</head>
+
+<body>
+    <main>
+        <div class="center-flexbox">
+            <div class="center-flexbox-item odd">
+                <div class="tool-link">URLEnco⇔URLDeco</div>
+            </div>
+            <div class="center-flexbox-item even">
+                <div class="tool-link">UTF⇔Literal</div>
+            </div>
+        </div>
+    </main>
+    <script type="text/javascript">
+    </script>
+</body>
+
+</html>

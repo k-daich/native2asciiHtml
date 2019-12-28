@@ -14,58 +14,58 @@
     html, body, main {
         margin : 0;
         padding : 0;
-        height : 100%;
-        width : 100%;
+        height : 100vh;
+        width : 100vw;
     }
 
     .upper-half {
-        height : 50%;
+        height : 40vh;
         width : 100%;
         background : var(--colorB);
+        padding-top : 5vh;
     }
 
     .lower-half {
-        height : 50%;
+        height : 40vh;
         width : 100%;
         background : var(--colorA);
+        padding-bottom : 5vh;
     }
 
-    .center {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        -webkit-transform: translate(-50%, -50%);
-        -ms-transform: translate(-50%, -50%);
-        width : 60%;
-        height : 10%;
-        padding :0;
-        display: block;
-        font-size : 0;
+    .center-flexbox {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content : center;
+        width : 100vw;
+        height : 10vh;
+        background:linear-gradient(0deg ,var(--colorA) 0%,var(--colorA) 50%,var(--colorB) 50%,var(--colorB) 100%);
     }
 
-    .tool-links, .tool-link {
-        display: inline-block;
-        vertical-align: middle;
+    a.tool-link {
+        width : 16vw;
         text-align: center;
+        word-break: break-all;
+        padding : 0.3vh 2vw;
+        text-decoration: none;
+        border : solid;
     }
 
-    .tool-links {
-        height : 100%;
-        width :100%;
+    .tool-link.odd {
+        background: var(--colorA);
+        color: var(--colorB);
     }
 
-    .tool-link {
-        height : 100%;
-        width :50%;
-        font-size : 1rem;
+    .tool-link.even {
+        background:  var(--colorB);
+        color: var(--colorA);
     }
 
     .input-area {
         position: relative;
-        top : 10%;
+        top : 0%;
         left : 7%;
-        height : 80%;
+        height : 40vh;
         width : 86%;
     }
 
@@ -151,11 +151,9 @@
                 <textarea id="urlEncoText" spellcheck="false"></textarea>
             </div>
         </div>
-        <div class="center">
-            <div class="tool-links">
-                <div class="tool-link odd">UTF⇔Literal</div>
-                <div class="tool-link even">URLEnco⇔URLDeco</div>
-            </div>
+        <div class="center-flexbox">
+            <a class="tool-link odd" href="./urlEncoDecoConverter.standalone.html">URLEnco⇔<br />URLDeco</a>
+            <a class="tool-link even" href="./utf8LiteralConverter.standalone.html">UTF⇔<br />Literal</a>
         </div>
         <div class="lower-half">
             <div class="input-area lower">
