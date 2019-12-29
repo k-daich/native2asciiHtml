@@ -230,8 +230,9 @@
                 ["#f8a643", "#0157be"]
             ];
 
+            var localStorageName = 'colorSet.urlEnco';
             var colorSetNo = getParam('colorSet');
-            var locStrg_colorSetNo = localStorage.getItem('colorSet');
+            var locStrg_colorSetNo = localStorage.getItem(localStorageName);
             // Getパラメータ、ローカルストレージともに未設定の場合
             if (!colorSetNo && !locStrg_colorSetNo) {
                 console.log('[Getパラメータ：無し、ローカルストレージ：無し]');
@@ -254,7 +255,7 @@
                 console.log('[Getパラメータ：有り、ローカルストレージ：判定無し]');
 
                 // ローカルストレージにGetパラメータ値を設定する
-                localStorage.setItem('colorSet', colorSetNo);
+                localStorage.setItem(localStorageName, colorSetNo);
             }
 
             // 乱数はGetパラメータで色を指定する際に利用するのでログ出力しておく
